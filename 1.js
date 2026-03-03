@@ -277,6 +277,8 @@
         let contextTargetTabId = null;
         let splitView = { enabled: false, leftId: null, rightId: null };
         let isMusicDrawerOpen = localStorage.getItem('endis_music_drawer') === 'true';
+        let webviewMode = localStorage.getItem('endis_webview_mode') || 'normal';
+        let webviewHeight = parseInt(localStorage.getItem('endis_webview_height') || '0', 10);
 
         function setSplitViewState(enabled, leftId = null, rightId = null) {
             splitView = { enabled, leftId, rightId };
@@ -302,6 +304,8 @@
             if(isPerformanceMode) { document.body.classList.add('performance-mode'); }
             window.changeLanguage(currentLanguage);
             if (isMusicDrawerOpen) document.getElementById('music-drawer').classList.add('open');
+            applyWebviewMode();
+            initWebviewDragger();
 
             document.getElementById('hub-notes').value = localStorage.getItem('endis_notes') || '';
 
@@ -334,6 +338,52 @@
                     battery.addEventListener('chargingchange', () => updateBatteryUI(battery));
                 });
             }
+        }
+
+
+        function applyWebviewMode() {
+            document.body.classList.remove('webview-minimized', 'webview-maximized', 'webview-custom-size');
+            if (webviewMode === 'minimized') document.body.classList.add('webview-minimized');
+            if (webviewMode === 'maximized') document.body.classList.add('webview-maximized');
+            if (webviewMode === 'normal' && webviewHeight > 0) {
+                document.body.classList.add('webview-custom-size');
+                document.documentElement.style.setProperty('--webview-height', webviewHeight + 'px');
+            }
+        }
+
+        window.setWebviewMode = function(mode) {
+            webviewMode = mode;
+            localStorage.setItem('endis_webview_mode', webviewMode);
+            applyWebviewMode();
+            window.showToast('Webview ' + mode, 'info');
+        }
+
+        function initWebviewDragger() {
+            const dragger = document.getElementById('webview-dragger');
+            if (!dragger) return;
+            let startY = 0;
+            let startH = 0;
+            let dragging = false;
+            dragger.addEventListener('mousedown', (e) => {
+                dragging = true;
+                startY = e.clientY;
+                const cc = document.getElementById('canvas-container');
+                startH = cc.getBoundingClientRect().height;
+                document.body.style.userSelect = 'none';
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (!dragging) return;
+                const delta = startY - e.clientY;
+                webviewHeight = Math.max(140, Math.min(window.innerHeight - 120, Math.round(startH + delta)));
+                webviewMode = 'normal';
+                localStorage.setItem('endis_webview_mode', webviewMode);
+                localStorage.setItem('endis_webview_height', String(webviewHeight));
+                applyWebviewMode();
+            });
+            window.addEventListener('mouseup', () => {
+                dragging = false;
+                document.body.style.userSelect = '';
+            });
         }
 
         function updateBatteryUI(battery) {

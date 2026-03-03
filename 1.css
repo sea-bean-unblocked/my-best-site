@@ -148,6 +148,38 @@
         /* --- VIEWPORT & PROXY CANVAS --- */
         .viewport { flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden; }
         #canvas-container { flex: 1; position: relative; background: #fff; display: none; }
+
+        :root { --webview-height: 70vh; }
+        #canvas-container {
+            border-radius: 18px; margin: 10px 14px 70px; overflow: hidden;
+            box-shadow: 0 14px 32px rgba(0,0,0,0.35); border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        .fallback-frame { border-radius: 16px; }
+        body.webview-minimized #canvas-container { flex: none; height: 140px !important; margin-bottom: 70px; }
+        body.webview-custom-size #canvas-container { flex: none; height: var(--webview-height) !important; }
+        body.webview-maximized #canvas-container { margin: 6px 8px 60px; border-radius: 14px; }
+
+        .webview-bottom-bar {
+            position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+            z-index: 130; display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px; border-radius: 999px; background: rgba(var(--bg-surface-rgb), 0.88);
+            border: 1px solid var(--border-color); box-shadow: var(--glass-shadow);
+            backdrop-filter: blur(8px);
+        }
+        .webview-dragger {
+            width: 64px; height: 10px; border-radius: 999px; cursor: ns-resize;
+            background: linear-gradient(90deg, rgba(var(--accent-rgb),0.35), rgba(255,255,255,0.25));
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .webview-btn {
+            width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: rgba(255,255,255,0.04); color: var(--text-main); display: inline-flex;
+            align-items: center; justify-content: center; cursor: pointer;
+        }
+        .webview-btn:hover { background: rgba(var(--accent-rgb),0.18); color: var(--accent-color); }
+        .webview-btn i { width: 16px; height: 16px; }
+
         .fallback-frame { width: 100%; height: 100%; border: none; display: none; position: absolute; top:0; left:0; right:0; bottom:0; background: #fff; }
         .music-drawer {
             position: absolute; top: 16px; right: -380px; width: 360px; height: calc(100% - 32px); z-index: 120;
@@ -297,3 +329,9 @@
         @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
     
+
+
+        .library-grid { padding: 15px 20px 20px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .library-column { background: rgba(0,0,0,0.18); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; }
+        .library-column-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; font-size:14px; }
+        @media (max-width: 900px) { .library-grid { grid-template-columns: 1fr; } }
