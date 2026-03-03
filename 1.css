@@ -297,3 +297,9 @@
         @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(120%); opacity: 0; } }
 
     
+
+
+        .library-grid { padding: 15px 20px 20px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .library-column { background: rgba(0,0,0,0.18); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; }
+        .library-column-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; font-size:14px; }
+        @media (max-width: 900px) { .library-grid { grid-template-columns: 1fr; } }

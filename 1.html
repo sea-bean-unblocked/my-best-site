@@ -83,7 +83,7 @@
         <div class="hub-container" id="hub-view">
             <div class="hub-content">
                 <div class="title-clock-container">
-                    <div class="clock-title" id="cock">sea bean</div>
+                    <div class="clock-title" id="clock">sea bean</div>
                     <div class="date-subtitle" id="date">Loading...</div>
                     <div id="battery-status" style="font-size: 12px; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 500;"></div>
                 </div>
@@ -96,6 +96,10 @@
 
                 <div class="apps-grid" id="hub-apps"></div>
 
+                <div class="notepad-container">
+                    <div class="notepad-header"><i data-lucide="notebook-pen"></i> <span data-i18n="notes">Notepad</span></div>
+                    <textarea id="hub-notes" data-i18n-placeholder="notes_placeholder" placeholder="Jot down something quick... (Auto-saves)" oninput="window.saveNotes(this.value)"></textarea>
+                </div>
 
             </div>
         </div>
@@ -357,17 +361,17 @@
                     <h2><i data-lucide="library"></i> Library</h2>
                     <button class="close-btn" onclick="window.closeModal('library-modal')"><i data-lucide="x"></i></button>
                 </div>
-                <div style="padding: 15px 20px 0; display: grid; gap: 16px; grid-template-columns: 1fr 1fr;">
-                    <div>
-                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                            <strong style="font-size: 14px;">Bookmarks</strong>
+                <div class="library-grid">
+                    <div class="library-column">
+                        <div class="library-column-header">
+                            <strong>Bookmarks</strong>
                         </div>
                         <input type="text" id="bookmarks-search" class="settings-input" data-i18n-placeholder="search_bookmarks" placeholder="Search bookmarks..." oninput="window.filterBookmarks(this.value)">
                         <div id="bookmarks-list" class="list-container" style="padding-top: 10px; max-height: 380px;"></div>
                     </div>
-                    <div>
-                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
-                            <strong style="font-size: 14px;">History</strong>
+                    <div class="library-column">
+                        <div class="library-column-header">
+                            <strong>History</strong>
                             <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="window.clearHistory()" data-i18n="clear_all">Clear All</button>
                         </div>
                         <input type="text" id="history-search" class="settings-input" data-i18n-placeholder="search_history" placeholder="Search history..." oninput="window.filterHistory(this.value)">
