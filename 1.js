@@ -833,7 +833,7 @@
             }
             if (filtered.length === 0) { l.innerHTML = '<div style="text-align:center; color: var(--text-muted); padding: 20px;">No results found.</div>'; return; }
             filtered.forEach((i) => {
-                const e = document.createElement('div'); e.className = 'list-item'; e.onclick = () => { window.loadUrl(i.url); window.closeModal('history-modal'); };
+                const e = document.createElement('div'); e.className = 'list-item'; e.onclick = () => { window.loadUrl(i.url); window.closeModal('library-modal'); };
                 e.innerHTML = `<div class="list-item-icon"><img src="${getFavicon(i.url)}" onerror="this.style.display='none'"></div>
                     <div class="list-item-details"><div class="list-title">${i.title}</div><div class="list-url">${i.url}</div></div><div class="list-meta">${i.time}</div>`;
                 l.appendChild(e);
@@ -860,7 +860,7 @@
             filtered.forEach((b, i) => {
                 const e = document.createElement('div'); e.className = 'list-item';
                 e.innerHTML = `<div class="list-item-icon"><img src="${b.icon}" onerror="this.style.display='none'"></div>
-                    <div class="list-item-details" onclick="window.loadUrl('${b.url}'); window.closeModal('bookmarks-modal');"><div class="list-title">${b.title}</div><div class="list-url">${b.url}</div></div>
+                    <div class="list-item-details" onclick="window.loadUrl('${b.url}'); window.closeModal('library-modal');"><div class="list-title">${b.title}</div><div class="list-url">${b.url}</div></div>
                     <div class="list-action" onclick="event.stopPropagation(); bookmarks.splice(${i},1); localStorage.setItem('endis_bookmarks', JSON.stringify(bookmarks)); renderBookmarks(); updateUI();"><i data-lucide="trash-2" style="width:16px;"></i></div>`;
                 l.appendChild(e);
             }); lucide.createIcons();
@@ -999,6 +999,18 @@
             activeTabId = leftId;
             updateUI();
             window.showToast('Split view enabled', 'success');
+        }
+
+
+        window.quickSplitFromActive = function() {
+            if (tabs.length < 2 || !activeTabId) { window.showToast('Open at least 2 tabs first.', 'warning'); return; }
+            const active = tabs.find(t => t.id === activeTabId);
+            const partner = tabs.find(t => t.id !== activeTabId && t.url && !t.url.includes('about:blank'));
+            if (!active || !active.url || active.url.includes('about:blank') || !partner) {
+                window.showToast('Load two real pages, then quick split.', 'warning');
+                return;
+            }
+            window.enableSplitView(active.id, partner.id);
         }
 
         window.disableSplitView = function() {

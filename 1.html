@@ -54,8 +54,8 @@
                 <div class="nav-btn" onclick="window.addTab(true)" title="New Incognito Tab"><i data-lucide="ghost" style="width:20px;"></i></div>
                 <div class="nav-btn" onclick="window.toggleFocusMode()" title="Focus Mode (F4)"><i data-lucide="eye" style="width:20px;"></i></div>
                 <div class="nav-btn" onclick="window.toggleFullscreen()" title="Fullscreen"><i data-lucide="maximize" style="width:20px;"></i></div>
-                <div class="nav-btn" onclick="window.openModal('bookmarks-modal')" title="Bookmarks"><i data-lucide="book-mark" style="width:20px;"></i></div>
-                <div class="nav-btn" onclick="window.openModal('history-modal')" title="History"><i data-lucide="clock" style="width:20px;"></i></div>
+                <div class="nav-btn" onclick="window.quickSplitFromActive()" title="Quick Split"><i data-lucide="columns-2" style="width:20px;"></i></div>
+                <div class="nav-btn" onclick="window.openModal('library-modal')" title="Library (History + Bookmarks)"><i data-lucide="library" style="width:20px;"></i></div>
                 <div class="nav-btn" onclick="window.openDevTools()" title="DevTools"><i data-lucide="terminal-square" style="width:20px;"></i></div>
                 <div class="nav-btn" onclick="window.openModal('settings-modal')" title="Settings"><i data-lucide="settings" style="width:20px;"></i></div>
             </div>
@@ -351,28 +351,29 @@
             </div>
         </div>
 
-        <div id="history-modal" class="overlay">
-            <div class="modal-box" style="max-width: 600px;">
+        <div id="library-modal" class="overlay">
+            <div class="modal-box" style="max-width: 760px;">
                 <div class="modal-header">
-                    <h2><i data-lucide="clock"></i> <span data-i18n="history">History</span></h2>
-                    <div class="nav-icons">
-                        <button class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;" onclick="window.clearHistory()" data-i18n="clear_all">Clear All</button>
-                        <button class="close-btn" onclick="window.closeModal('history-modal')"><i data-lucide="x"></i></button>
+                    <h2><i data-lucide="library"></i> Library</h2>
+                    <button class="close-btn" onclick="window.closeModal('library-modal')"><i data-lucide="x"></i></button>
+                </div>
+                <div style="padding: 15px 20px 0; display: grid; gap: 16px; grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                            <strong style="font-size: 14px;">Bookmarks</strong>
+                        </div>
+                        <input type="text" id="bookmarks-search" class="settings-input" data-i18n-placeholder="search_bookmarks" placeholder="Search bookmarks..." oninput="window.filterBookmarks(this.value)">
+                        <div id="bookmarks-list" class="list-container" style="padding-top: 10px; max-height: 380px;"></div>
+                    </div>
+                    <div>
+                        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+                            <strong style="font-size: 14px;">History</strong>
+                            <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="window.clearHistory()" data-i18n="clear_all">Clear All</button>
+                        </div>
+                        <input type="text" id="history-search" class="settings-input" data-i18n-placeholder="search_history" placeholder="Search history..." oninput="window.filterHistory(this.value)">
+                        <div id="history-list" class="list-container" style="padding-top: 10px; max-height: 380px;"></div>
                     </div>
                 </div>
-                <input type="text" id="history-search" class="settings-input" style="margin: 15px 20px 0; width: calc(100% - 40px);" data-i18n-placeholder="search_history" placeholder="Search history..." oninput="window.filterHistory(this.value)">
-                <div id="history-list" class="list-container" style="padding-top: 10px;"></div>
-            </div>
-        </div>
-
-        <div id="bookmarks-modal" class="overlay">
-            <div class="modal-box" style="max-width: 600px;">
-                <div class="modal-header">
-                    <h2><i data-lucide="book-mark"></i> <span data-i18n="bookmarks">Bookmarks</span></h2>
-                    <button class="close-btn" onclick="window.closeModal('bookmarks-modal')"><i data-lucide="x"></i></button>
-                </div>
-                <input type="text" id="bookmarks-search" class="settings-input" style="margin: 15px 20px 0; width: calc(100% - 40px);" data-i18n-placeholder="search_bookmarks" placeholder="Search bookmarks..." oninput="window.filterBookmarks(this.value)">
-                <div id="bookmarks-list" class="list-container" style="padding-top: 10px;"></div>
             </div>
         </div>
 
