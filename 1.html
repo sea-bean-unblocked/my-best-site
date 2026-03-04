@@ -76,11 +76,29 @@
         </div>
         <div id="canvas-container"></div>
 
-        <div id="webview-bottom-bar" class="webview-bottom-bar">
-            <div class="webview-dragger" id="webview-dragger" title="Drag to resize"></div>
-            <button class="webview-btn" onclick="window.setWebviewMode('minimized')" title="Minimize"><i data-lucide="chevrons-down"></i></button>
-            <button class="webview-btn" onclick="window.setWebviewMode('normal')" title="Normal Size"><i data-lucide="square"></i></button>
-            <button class="webview-btn" onclick="window.setWebviewMode('maximized')" title="Magnify"><i data-lucide="maximize-2"></i></button>
+        <div id="iframe-transform-shell" class="iframe-transform-shell">
+            <div id="iframe-transform-panel" class="iframe-transform-panel">
+                <button class="transform-home-pill" onclick="window.toggleTransformBar()" title="Collapse Panel">
+                    <i data-lucide="house"></i>
+                    <span>4438 online</span>
+                </button>
+                <div class="transform-divider"></div>
+                <button class="transform-item" onclick="window.transformAction('play')"><i data-lucide="gamepad-2"></i><span>Play</span><em>UPDATED</em></button>
+                <button class="transform-item" onclick="window.transformAction('watch')"><i data-lucide="film"></i><span>Watch</span></button>
+                <button class="transform-item" onclick="window.transformAction('chat')"><i data-lucide="bot"></i><span>AI Chat</span></button>
+                <button class="transform-item" onclick="window.transformAction('listen')"><i data-lucide="music-2"></i><span>Listen</span></button>
+                <button class="transform-item active" onclick="window.transformAction('browse')"><i data-lucide="globe"></i><span>Browse</span></button>
+            </div>
+            <div class="transform-actions-rail">
+                <button class="transform-action-btn" onclick="window.toggleMusicDrawer()" title="Audio"><i data-lucide="volume-2"></i></button>
+                <button class="transform-action-btn" onclick="window.toggleWebviewMagnify()" title="Magnify / Normal"><i data-lucide="expand"></i></button>
+                <button class="transform-action-btn" onclick="window.setWebviewMode('minimized')" title="Minimize"><i data-lucide="chevrons-down"></i></button>
+                <div class="transform-dragger" id="webview-dragger" title="Drag iframe size"></div>
+                <button class="transform-action-btn" onclick="window.openModal('settings-modal')" title="Settings"><i data-lucide="settings"></i></button>
+            </div>
+            <button id="transform-compact-btn" class="transform-compact-btn" onclick="window.toggleTransformBar()" title="Open Panel">
+                <i data-lucide="house"></i>
+            </button>
         </div>
 
         <div id="music-drawer" class="music-drawer">

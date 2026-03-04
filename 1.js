@@ -279,6 +279,7 @@
         let isMusicDrawerOpen = localStorage.getItem('endis_music_drawer') === 'true';
         let webviewMode = localStorage.getItem('endis_webview_mode') || 'normal';
         let webviewHeight = parseInt(localStorage.getItem('endis_webview_height') || '0', 10);
+        let transformCollapsed = localStorage.getItem('endis_transform_collapsed') === 'true';
 
         function setSplitViewState(enabled, leftId = null, rightId = null) {
             splitView = { enabled, leftId, rightId };
@@ -306,6 +307,7 @@
             if (isMusicDrawerOpen) document.getElementById('music-drawer').classList.add('open');
             applyWebviewMode();
             initWebviewDragger();
+            document.body.classList.toggle('transform-collapsed', transformCollapsed);
 
             document.getElementById('hub-notes').value = localStorage.getItem('endis_notes') || '';
 
@@ -356,6 +358,25 @@
             localStorage.setItem('endis_webview_mode', webviewMode);
             applyWebviewMode();
             window.showToast('Webview ' + mode, 'info');
+        }
+
+        window.toggleWebviewMagnify = function() {
+            if (webviewMode === 'maximized') window.setWebviewMode('normal');
+            else window.setWebviewMode('maximized');
+        }
+
+        window.toggleTransformBar = function() {
+            transformCollapsed = !transformCollapsed;
+            document.body.classList.toggle('transform-collapsed', transformCollapsed);
+            localStorage.setItem('endis_transform_collapsed', String(transformCollapsed));
+        }
+
+        window.transformAction = function(action) {
+            if (action === 'play') { window.openGameTab(); return; }
+            if (action === 'watch') { window.addTab(); window.loadUrl('https://www.youtube.com'); return; }
+            if (action === 'chat') { window.addTab(); window.loadUrl('https://chat.openai.com'); return; }
+            if (action === 'listen') { window.toggleMusicDrawer(); return; }
+            if (action === 'browse') { window.goHome(); return; }
         }
 
         function initWebviewDragger() {
